@@ -74,7 +74,8 @@ class MinerList extends React.Component {
 								<td> {miner.load}/ {miner.carryCapacity}</td>
 								<td> {miner.travelSpeed}</td>
 								<td> {miner.miningSpeed}</td>
-								<td> {miner.position.x}, {" "}, {miner.position.y}</td>
+								<td>832, 635</td>
+								{/* <td> {miner.position.x}, {" "}, {miner.position.y}</td> */}
 								<td> {miner.status}</td>
 							</tr>
 						))

@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
+const { minerStatus } = require('../config/minerStatus');
 
 // const validator = require('validator');
 const { toJSON, paginate, geo } = require('./plugins');
-// const { roles } = require('../config/roles');
 
 const minerSchema = Schema(
   {
@@ -16,6 +16,12 @@ const minerSchema = Schema(
     carryCapacity: {
       type: Number,
       min: 1,
+      max: 200,
+      required: true,
+    },
+    load: {
+      type: Number,
+      min: 0,
       max: 200,
       required: true,
     },
@@ -39,6 +45,11 @@ const minerSchema = Schema(
     target: {
       type: Schema.Types.ObjectId,
       ref: 'Asteroid',
+    },
+    status: {
+      type: String,
+      enum: [minerStatus.Idle, minerStatus.Mining, minerStatus.Traveling, minerStatus.Transfering],
+      required: true,
     },
   },
   {

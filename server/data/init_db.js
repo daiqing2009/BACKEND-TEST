@@ -75,7 +75,7 @@ const seedMiner = async (numOfPlanet) => {
         carryCapacity: Math.floor(Math.random() * 200) + 1,
         travelSpeed: Math.floor(Math.random() * 200) + 1, // 10 for debug
         miningSpeed: Math.floor(Math.random() * 200) + 1,
-        status: 0,
+        status: "Idle",
         load: 0,
         // angle: 0, // For CSS rotation
       })
