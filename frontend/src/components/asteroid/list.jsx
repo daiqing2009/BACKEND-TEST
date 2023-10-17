@@ -3,10 +3,24 @@
  */
 
 import React from 'react'
+import { apis } from "../../apis/index.js";
 
 class AsteroidList extends React.Component {
 	constructor(props) {
 		super(props)
+		this.state = {
+			asteroids: []
+		}
+	}
+
+	componentDidMount() {
+		apis.fetchAsteroids().then(
+			value => {
+				console.log(value)
+				this.setState({ asteroids: value.data.results })
+			},
+			error => this.setState({ error: error })
+		);
 	}
 
 	render() {
@@ -22,40 +36,16 @@ class AsteroidList extends React.Component {
 				</thead>
 
 				<tbody>
-					<tr>
-						<td>Asteroid 1</td>
-						<td>758/963</td>
-						<td>Miner 1</td>
-						<td>832, 635</td>
-					</tr>
-
-					<tr>
-						<td>Asteroid 2</td>
-						<td className="red">0/879</td>
-						<td>-</td>
-						<td>759, 118</td>
-					</tr>
-
-					<tr>
-						<td>Asteroid 3</td>
-						<td>915/1157</td>
-						<td>Miner 2</td>
-						<td>216, 492</td>
-					</tr>
-
-					<tr>
-						<td>Asteroid 4</td>
-						<td>2/989</td>
-						<td>Miner 4</td>
-						<td>564, 349</td>
-					</tr>
-
-					<tr>
-						<td>Asteroid 5</td>
-						<td>702/905</td>
-						<td>-</td>
-						<td>255, 255</td>
-					</tr>
+					{
+						this.state.asteroids.map(asteroid => (
+							<tr>
+								<td>{asteroid.name}</td>
+								<td className={Number(asteroid.mineral) === 0 ? "red" : ""}>{asteroid.mineral}/ {asteroid.initMineral}</td>
+								<td>{asteroid.currentMiner}-</td>
+								<td>832, 635</td>
+							</tr>
+						))
+					}
 				</tbody>
 			</table>
 		</div>

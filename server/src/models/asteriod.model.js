@@ -16,6 +16,11 @@ const asteriodSchema = mongoose.Schema(
       min: 0,
       required: true,
     },
+    initMineral: {
+      type: Number,
+      min: 0,
+      required: true,
+    },
     status: { type: Number, required: true },
     currentMiner: {
       type: mongoose.Schema.Types.ObjectId,

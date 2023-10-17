@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const config = require('../src/config/config');
 const { Miner, Planet, Asteroid } = require('../src/models');
+const { init } = require('../src/models/asteriod.model');
 
 const main = async () => {
   await mongoose.connect(config.mongoose.url, config.mongoose.options);
@@ -17,9 +18,11 @@ const seedAsteriod = async (numOfAsteriod) => {
   try {
     let data = []
     for (let i = 1; i <= numOfAsteriod; i++) {
+      let initMineral = Math.floor(Math.random() * (1200 - 800 + 1) + 800);
       data.push({
         "name": "Asteroid " + i,
-        "mineral": Math.floor(Math.random() * (1200 - 800 + 1) + 800),
+        "mineral": initMineral,
+        "initMineral": initMineral,
         // "position": {
         //   "x": Math.floor(Math.random() * 1000),
         //   "y": Math.floor(Math.random() * 1000)

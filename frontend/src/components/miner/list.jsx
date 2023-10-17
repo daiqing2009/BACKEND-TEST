@@ -44,9 +44,9 @@ class MinerList extends React.Component {
 		apis.fetchMiners().then(
 			value => {
 				console.debug(value)
-				this.setState({loading: false, miners: value.data.results})
+				this.setState({ miners: value.data.results })
 			},
-			error => this.setState({loading: false, error: error})
+			error => this.setState({ error: error })
 		);
 	}
 
@@ -70,7 +70,7 @@ class MinerList extends React.Component {
 						this.state.miners.map(miner => (
 							<tr onClick={this.openPopup.bind(this)}>
 								<td> {miner.name} </td>
-								<td className=''> {miner.planet.name}</td>
+								<td className={Number(miner.payload) === Number(miner.carryCapacity) ? "green" : ""}> {miner.planet.name}</td>
 								<td> {miner.load}/ {miner.carryCapacity}</td>
 								<td> {miner.travelSpeed}</td>
 								<td> {miner.miningSpeed}</td>
@@ -80,26 +80,6 @@ class MinerList extends React.Component {
 							</tr>
 						))
 					}
-					<tr onClick={this.openPopup.bind(this)}>
-						<td>Miner 1</td>
-						<td>Planet 1</td>
-						<td>113/120</td>
-						<td>60</td>
-						<td>20</td>
-						<td>832, 635</td>
-						<td>Mining</td>
-					</tr>
-
-					<tr onClick={this.openPopup.bind(this)}>
-						<td>Miner 2</td>
-						<td>Planet 2</td>
-						<td className="green">120/120</td>
-						<td>60</td>
-						<td>20</td>
-						<td>832, 635</td>
-						<td>Traveling</td>
-					</tr>
-
 				</tbody>
 			</table>
 
