@@ -5,7 +5,7 @@ const instance = axios.create({
 });
 
 export const apis = {
-  fetchPlanet: () => instance.get(`/planets`),
+  fetchPlanets: () => instance.get(`/planets`),
   fetchAsteroids: () => instance.get(`/asteroids`),
   fetchMiners: () => instance.get(`/miners`),
   fetchMinerByName: (name) =>

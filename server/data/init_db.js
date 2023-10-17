@@ -48,6 +48,7 @@ const seedPlanet = async (numOfPlanet) => {
       data.push({
         "name": "Planet " + i,
         "mineral": 0,
+        "totalOfMiners": 0,
         "position": {
           "x": Math.floor(Math.random() * 1000),
           "y": Math.floor(Math.random() * 1000)
@@ -99,7 +100,7 @@ const getRandomPlanet = async () => {
   const count = await Planet.count().exec();
   const random = Math.floor(Math.random() * count);
   const planet = await Planet.findOne().skip(random).exec()
-  // planet.miners += 1;
+  planet.totalOfMiners += 1;
   await planet.save();
   return planet;
 }

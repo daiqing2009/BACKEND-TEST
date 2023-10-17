@@ -8,9 +8,6 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<Miner>}
  */
 const createMiner = async (minerBody) => {
-  if (await Miner.isEmailTaken(minerBody.email)) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
-  }
   return Miner.create(minerBody);
 };
 
@@ -47,9 +44,6 @@ const updateMinerById = async (minerId, updateBody) => {
   const miner = await getMinerById(minerId);
   if (!miner) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Miner not found');
-  }
-  if (updateBody.email && (await Miner.isEmailTaken(updateBody.email, minerId))) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
   }
   Object.assign(miner, updateBody);
   await miner.save();

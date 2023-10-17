@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 // const validator = require('validator');
-// const bcrypt = require('bcryptjs');
 const { toJSON, paginate } = require('./plugins');
-// const { roles } = require('../config/roles');
 
 const planetSchema = mongoose.Schema(
   {
@@ -12,6 +10,11 @@ const planetSchema = mongoose.Schema(
       trim: true,
     },
     mineral: {
+      type: Number,
+      min: 0,
+      required: true,
+    },
+    totalOfMiners: {
       type: Number,
       min: 0,
       required: true,
