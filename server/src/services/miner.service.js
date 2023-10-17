@@ -21,7 +21,7 @@ const createMiner = async (minerBody) => {
  * @returns {Promise<QueryResult>}
  */
 const queryMiners = async (filter, options) => {
-  const miners = await Miner.paginate(filter, options);
+  const miners = await Miner.paginate(filter, { populate: 'planet' });
   return miners;
 };
 
@@ -31,7 +31,7 @@ const queryMiners = async (filter, options) => {
  * @returns {Promise<Miner>}
  */
 const getMinerById = async (id) => {
-  return Miner.findById(id);
+  return Miner.findById(id).populate('planet');
 };
 
 /**
