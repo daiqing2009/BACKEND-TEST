@@ -21,7 +21,7 @@ const createMiner = async (minerBody) => {
  * @returns {Promise<QueryResult>}
  */
 const queryMiners = async (filter, options) => {
-  const miners = await Miner.paginate(filter, { populate: 'planet' });
+  const miners = await Miner.paginate(filter, { ...options, populate: 'planet' });
   return miners;
 };
 

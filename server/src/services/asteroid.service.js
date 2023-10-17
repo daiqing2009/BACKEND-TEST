@@ -12,7 +12,7 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<QueryResult>}
  */
 const queryAsteroids = async (filter, options) => {
-  const asteroids = await Asteroid.paginate(filter, options);
+  const asteroids = await Asteroid.paginate(filter, { ...options, populate: 'currentMiner' });
   return asteroids;
 };
 
@@ -22,7 +22,7 @@ const queryAsteroids = async (filter, options) => {
  * @returns {Promise<Asteroid>}
  */
 const getAsteroidById = async (id) => {
-  return Asteroid.findById(id);
+  return Asteroid.findById(id).populate('currentMiner');
 };
 
 /**
