@@ -18,6 +18,7 @@ class PlanetList extends React.Component {
 			loading: false,
 			planets: [],
 			selectedPlanet:{ name: 'Planet Selected' },
+			miners:[],
 		}
 		this.showPopup = this.showPopup.bind(this)
 		this.hidePopup = this.hidePopup.bind(this)
@@ -41,6 +42,20 @@ class PlanetList extends React.Component {
 				})
 			}, 2000),
 		})
+
+		apis.fetchMinerByPlanetId(planet.id).then(
+			value => {
+				this.setState({ 
+					miners: value.data.results,
+					loading: false
+				})
+				clearTimeout(this.state.loaderTimeout)
+			},
+			error => this.setState({ 
+				error: error,
+				miners: [],
+			})
+		);
 	}
 
 	// Hide planet popup
@@ -75,13 +90,6 @@ class PlanetList extends React.Component {
 		);
 	}
 
-	changeLoading() {
-		console.log("changeLoading!")
-		this.setState({
-			loading: false
-		})
-	}
-
 	render() {
 		return <div className="list">
 			<table>
@@ -113,7 +121,7 @@ class PlanetList extends React.Component {
 			<Rodal visible={this.state.popupVisible} onClose={this.hidePopup} width="550" height="480">
 				<h2>List of miners of {this.state.selectedPlanet.name}</h2>
 				{
-					this.state.loading ? <Loader /> : <PopupContent planet={this.state.selectedPlanet} changeLoading={this.changeLoading}/>
+					this.state.loading ? <Loader /> : <PopupContent miners = {this.state.miners} />
 				}
 			</Rodal>
 

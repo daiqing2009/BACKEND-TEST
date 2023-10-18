@@ -3,26 +3,15 @@
  */
 
 import React from 'react'
-import { apis } from "../../apis/index.js";
+// import { apis } from "../../apis/index.js";
 
 class PlanetPopup extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			planet: props.planet,
-			miners: []
+			// planet: props.planet,
+			miners: props.miners,
 		}
-		this.changeLoading = props.changeLoading
-	}
-
-	componentDidMount() {
-		apis.fetchMinerByPlanetId(this.state.planet.id).then(
-			value => {
-				this.setState({ miners: value.data.results })
-				this.changeLoading(false)
-			},
-			error => this.setState({ error: error })
-		);
 	}
 
 	render() {
