@@ -70,8 +70,8 @@ class MinerList extends React.Component {
 						this.state.miners.map(miner => (
 							<tr onClick={this.openPopup.bind(this)}>
 								<td> {miner.name} </td>
-								<td className={Number(miner.payload) === Number(miner.carryCapacity) ? "green" : ""}> {miner.planet.name}</td>
-								<td> {miner.load}/ {miner.carryCapacity}</td>
+								<td> {miner.planet.name}</td>
+								<td className={Number(miner.payload) === Number(miner.carryCapacity) ? "green" : ""}> {miner.load}/ {miner.carryCapacity}</td>
 								<td> {miner.travelSpeed}</td>
 								<td> {miner.miningSpeed}</td>
 								<td>832, 635</td>

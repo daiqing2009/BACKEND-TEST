@@ -3,10 +3,26 @@
  */
 
 import React from 'react'
+import { apis } from "../../apis/index.js";
 
 class PlanetPopup extends React.Component {
 	constructor(props) {
 		super(props)
+		this.state = {
+			planet: props.planet,
+			miners: []
+		}
+		this.changeLoading = props.changeLoading
+	}
+
+	componentDidMount() {
+		apis.fetchMinerByPlanetId(this.state.planet.id).then(
+			value => {
+				this.setState({ miners: value.data.results })
+				this.changeLoading(false)
+			},
+			error => this.setState({ error: error })
+		);
 	}
 
 	render() {
@@ -24,32 +40,19 @@ class PlanetPopup extends React.Component {
 				</thead>
 
 				<tbody>
-					<tr>
-						<td>Miner 1</td>
-						<td>0/120</td>
-						<td>60</td>
-						<td>20</td>
-						<td>832, 635</td>
-						<td>Mining</td>
-					</tr>
-
-					<tr>
-						<td>Miner 2</td>
-						<td>16/120</td>
-						<td>200</td>
-						<td>45</td>
-						<td>32, 205</td>
-						<td>Traveling</td>
-					</tr>
-
-					<tr>
-						<td>Miner 3</td>
-						<td className="green">120/120</td>
-						<td>87</td>
-						<td>166</td>
-						<td>333, 123</td>
-						<td>Transferring</td>
-					</tr>
+					{
+						this.state.miners.map(miner => (
+							<tr>
+								<td> {miner.name} </td>
+								<td className={Number(miner.payload) === Number(miner.carryCapacity) ? "green" : ""}> {miner.load}/ {miner.carryCapacity}</td>
+								<td> {miner.travelSpeed}</td>
+								<td> {miner.miningSpeed}</td>
+								<td>333, 123</td>
+								{/* <td> {miner.position.x}, {" "}, {miner.position.y}</td> */}
+								<td> {miner.status}</td>
+							</tr>
+						))
+					}
 				</tbody>
 			</table>
 		</div>

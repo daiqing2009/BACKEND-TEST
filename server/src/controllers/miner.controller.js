@@ -10,7 +10,7 @@ const createMiner = catchAsync(async (req, res) => {
 });
 
 const getMiners = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['name', 'role']);
+  const filter = pick(req.query, ['planet']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await minerService.queryMiners(filter, options);
   res.send(result);

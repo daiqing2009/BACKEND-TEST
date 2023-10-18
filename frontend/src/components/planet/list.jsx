@@ -16,7 +16,8 @@ class PlanetList extends React.Component {
 			popupVisible: false,
 			formVisible: false,
 			loading: false,
-			planets: []
+			planets: [],
+			selectedPlanet:{ name: 'Planet Selected' },
 		}
 		this.showPopup = this.showPopup.bind(this)
 		this.hidePopup = this.hidePopup.bind(this)
@@ -25,19 +26,20 @@ class PlanetList extends React.Component {
 	}
 
 	// Show planet popup
-	showPopup() {
+	showPopup(e,planet) {
 		// If there is a timeout in progress, cancel it
 		if (this.state.loaderTimeout)
 			clearTimeout(this.state.loaderTimeout)
 
 		this.setState({
+			selectedPlanet: planet,
 			popupVisible: true,
 			loading: true,
 			loaderTimeout: setTimeout(() => {
 				this.setState({
 					loading: false
 				})
-			}, 2000)
+			}, 2000),
 		})
 	}
 
@@ -73,6 +75,13 @@ class PlanetList extends React.Component {
 		);
 	}
 
+	changeLoading() {
+		console.log("changeLoading!")
+		this.setState({
+			loading: false
+		})
+	}
+
 	render() {
 		return <div className="list">
 			<table>
@@ -89,7 +98,7 @@ class PlanetList extends React.Component {
 				<tbody>
 					{
 						this.state.planets.map(planet => (
-							<tr onClick={this.showPopup}>
+							<tr onClick={e=>this.showPopup(e, planet)} >
 								<td>{planet.name}</td>
 								<td>{planet.totalOfMiners}</td>
 								<td className={Number(planet.mineral) > 1000 ? "green" : ""}>{planet.mineral}/ 1000</td>
@@ -102,9 +111,9 @@ class PlanetList extends React.Component {
 			</table>
 
 			<Rodal visible={this.state.popupVisible} onClose={this.hidePopup} width="550" height="480">
-				<h2>List of miners of Planet 1</h2>
+				<h2>List of miners of {this.state.selectedPlanet.name}</h2>
 				{
-					this.state.loading ? <Loader /> : <PopupContent />
+					this.state.loading ? <Loader /> : <PopupContent planet={this.state.selectedPlanet} changeLoading={this.changeLoading}/>
 				}
 			</Rodal>
 

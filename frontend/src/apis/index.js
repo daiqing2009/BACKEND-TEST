@@ -22,7 +22,7 @@ export const apis = {
   fetchMinerByPlanetId: (id) => {
     return instance.get(`/miners`, {
       params: {
-        planetId: JSON.stringify(id),
+        planet: id,
       },
     });
   },
