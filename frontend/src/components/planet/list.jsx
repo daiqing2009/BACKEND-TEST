@@ -17,8 +17,8 @@ class PlanetList extends React.Component {
 			formVisible: false,
 			loading: false,
 			planets: [],
-			selectedPlanet:{ name: 'Planet Selected' },
-			miners:[],
+			selectedPlanet: { id: "initial", name: 'Planet Selected' },
+			miners: [],
 		}
 		this.showPopup = this.showPopup.bind(this)
 		this.hidePopup = this.hidePopup.bind(this)
@@ -27,7 +27,7 @@ class PlanetList extends React.Component {
 	}
 
 	// Show planet popup
-	showPopup(e,planet) {
+	showPopup(e, planet) {
 		// If there is a timeout in progress, cancel it
 		if (this.state.loaderTimeout)
 			clearTimeout(this.state.loaderTimeout)
@@ -45,13 +45,13 @@ class PlanetList extends React.Component {
 
 		apis.fetchMinerByPlanetId(planet.id).then(
 			value => {
-				this.setState({ 
+				this.setState({
 					miners: value.data.results,
 					loading: false
 				})
 				clearTimeout(this.state.loaderTimeout)
 			},
-			error => this.setState({ 
+			error => this.setState({
 				error: error,
 				miners: [],
 			})
@@ -66,9 +66,10 @@ class PlanetList extends React.Component {
 	}
 
 	// Show create miner form popup
-	showForm(e) {
+	showForm(e, planet) {
 		e.stopPropagation()
 		this.setState({
+			selectedPlanet: planet,
 			formVisible: true
 		})
 	}
@@ -106,12 +107,12 @@ class PlanetList extends React.Component {
 				<tbody>
 					{
 						this.state.planets.map(planet => (
-							<tr onClick={e=>this.showPopup(e, planet)} >
+							<tr onClick={e => this.showPopup(e, planet)} key={planet.id + planet.totalOfMiners}>
 								<td>{planet.name}</td>
 								<td>{planet.totalOfMiners}</td>
 								<td className={Number(planet.mineral) > 1000 ? "green" : ""}>{planet.mineral}/ 1000</td>
 								<td>832, 635</td>
-								<td>{Number(planet.mineral) > 1000 ? <div className="icon-addminer" onClick={this.showForm}>Create a miner</div> : ""}</td>
+								<td>{Number(planet.mineral) > 1000 ? <div className="icon-addminer" onClick={e => this.showForm(e, planet)}>Create a miner</div> : ""}</td>
 							</tr>
 						))
 					}
@@ -121,13 +122,13 @@ class PlanetList extends React.Component {
 			<Rodal visible={this.state.popupVisible} onClose={this.hidePopup} width="550" height="480">
 				<h2>List of miners of {this.state.selectedPlanet.name}</h2>
 				{
-					this.state.loading ? <Loader /> : <PopupContent miners = {this.state.miners} />
+					this.state.loading ? <Loader /> : <PopupContent miners={this.state.miners} />
 				}
 			</Rodal>
 
 			<Rodal visible={this.state.formVisible} onClose={this.hideForm} width="440" height="480">
 				<h2>Create a miner</h2>
-				<CreateMinerForm />
+				<CreateMinerForm key={this.state.selectedPlanet.id} selectedPlanet={this.state.selectedPlanet} planets={this.state.planets} hideForm={this.hideForm}/>
 			</Rodal>
 		</div>
 	}

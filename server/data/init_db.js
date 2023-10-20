@@ -47,7 +47,7 @@ const seedPlanet = async (numOfPlanet) => {
     for (let i = 1; i <= numOfPlanet; i++) {
       data.push({
         "name": "Planet " + i,
-        "mineral": 0,
+        "mineral": Math.floor(Math.random() * 3000),
         "totalOfMiners": 0,
         "position": {
           "x": Math.floor(Math.random() * 1000),

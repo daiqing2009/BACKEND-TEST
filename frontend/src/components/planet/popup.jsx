@@ -31,7 +31,7 @@ class PlanetPopup extends React.Component {
 				<tbody>
 					{
 						this.state.miners.map(miner => (
-							<tr>
+							<tr key={miner.id}>
 								<td> {miner.name} </td>
 								<td className={Number(miner.payload) === Number(miner.carryCapacity) ? "green" : ""}> {miner.load}/ {miner.carryCapacity}</td>
 								<td> {miner.travelSpeed}</td>

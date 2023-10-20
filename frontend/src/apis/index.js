@@ -11,7 +11,7 @@ export const apis = {
   fetchMinerByName: (name) =>
     instance.get(`/miners`, {
       params: {
-        name,
+        name: name
       },
     }),
   /**

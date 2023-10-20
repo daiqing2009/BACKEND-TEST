@@ -3,16 +3,20 @@ const { password, objectId } = require('./custom.validation');
 
 const createMiner = {
   body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required().custom(password),
     name: Joi.string().required(),
-    role: Joi.string().required().valid('miner', 'admin'),
+    carryCapacity: Joi.number().integer().min(1).max(120),
+    load: Joi.number().integer().min(0).max(120),
+    travelSpeed: Joi.number().integer().min(1).max(120),
+    miningSpeed: Joi.number().integer().min(1).max(120),
+    planet: Joi.string().required(),
+    status: Joi.string().required(),
   }),
 };
 
 const getMiners = {
   query: Joi.object().keys({
     planet: Joi.string(),
+    name: Joi.string(),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),

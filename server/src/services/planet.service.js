@@ -38,8 +38,8 @@ const updatePlanetById = async (PlanetId, updateBody) => {
   }
 
   Object.assign(planet, updateBody);
-  await Planet.save();
-  return Planet;
+  await planet.save();
+  return planet;
 };
 
 module.exports = {
