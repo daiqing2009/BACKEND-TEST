@@ -10,7 +10,7 @@ const ApiError = require('../utils/ApiError');
 const createMiner = async (minerBody) => {
   //TODO: capsule the logic in one transaction
   const planet = await Planet.findById(minerBody.planet);
-  planet.mineral -= 10;
+  planet.mineral -= 1000;
   planet.totalOfMiners += 1;
   await planet.save();
   return Miner.create(minerBody);

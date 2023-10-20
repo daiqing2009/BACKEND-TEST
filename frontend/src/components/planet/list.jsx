@@ -128,7 +128,7 @@ class PlanetList extends React.Component {
 
 			<Rodal visible={this.state.formVisible} onClose={this.hideForm} width="440" height="480">
 				<h2>Create a miner</h2>
-				<CreateMinerForm key={this.state.selectedPlanet.id} selectedPlanet={this.state.selectedPlanet} planets={this.state.planets} hideForm={this.hideForm}/>
+				<CreateMinerForm key={this.state.selectedPlanet.id} selectedPlanet={this.state.selectedPlanet} planets={this.state.planets} parentCallback={this.hideForm}/>
 			</Rodal>
 		</div>
 	}

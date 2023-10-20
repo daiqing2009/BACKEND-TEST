@@ -20,8 +20,8 @@ class CreateMiner extends React.Component {
 			totalPointError: false,
 			planets: props.planets,
 			planetId: props.selectedPlanet.id,
-			hideFrame: props.hideFrame
 		}
+		// console.debug(props.parentCallback)
 		this.updatePoints = this.updatePoints.bind(this)
 		this.computePoints = this.computePoints.bind(this)
 		this.checkMinerName = this.checkMinerName.bind(this)
@@ -100,9 +100,8 @@ class CreateMiner extends React.Component {
 			value => {
 				console.log(value.status + ':' + httpStatus.CREATED + '~' + (value.status === httpStatus.CREATED))
 				if (value.status == httpStatus.CREATED) {
-
-					this.state.hideFrame()
-				}
+					this.props.parentCallback()
+				} 
 			},
 			error => this.setState({
 				error: error,
