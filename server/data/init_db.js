@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const config = require('../src/config/config');
-const { Miner, Planet, Asteroid } = require('../src/models');
-const { init } = require('../src/models/asteriod.model');
+const { Planet, Asteroid } = require('../src/models');
+const { MinerStatus, TravelTo, Miner } = require("../src/models/miner.model");
+const logger = require('../src/config/logger')
 
 const main = async () => {
   await mongoose.connect(config.mongoose.url, config.mongoose.options);
@@ -18,24 +19,24 @@ const seedAsteriod = async (numOfAsteriod) => {
   try {
     let data = []
     for (let i = 1; i <= numOfAsteriod; i++) {
-      let initMineral = Math.floor(Math.random() * (1200 - 800 + 1) + 800);
+      let initMinerals = Math.floor(Math.random() * (1200 - 800 + 1) + 800);
       data.push({
         "name": "Asteroid " + i,
-        "mineral": initMineral,
-        "initMineral": initMineral,
-        // "position": {
-        //   "x": Math.floor(Math.random() * 1000),
-        //   "y": Math.floor(Math.random() * 1000)
-        // },
+        "minerals": initMinerals,
+        "initMinerals": initMinerals,
+        "position": {
+          "x": Math.floor(Math.random() * 1000),
+          "y": Math.floor(Math.random() * 1000)
+        },
         "status": 1,
         "currentMiner": null
       })
     }
 
     await Asteroid.insertMany(data);
-    console.log('Seeded Asteroid data successfully.');
+    logger.info('Seeded Asteroid data successfully.');
   } catch (error) {
-    console.error('Error seeding Asteroid data: ', error);
+    logger.error('Error seeding Asteroid data: ', error);
   }
 }
 
@@ -47,19 +48,19 @@ const seedPlanet = async (numOfPlanet) => {
     for (let i = 1; i <= numOfPlanet; i++) {
       data.push({
         "name": "Planet " + i,
-        "mineral": Math.floor(Math.random() * 3000),
+        "minerals": Math.floor(Math.random() * 3000),
         "totalOfMiners": 0,
         "position": {
           "x": Math.floor(Math.random() * 1000),
           "y": Math.floor(Math.random() * 1000)
         },
-      })
+      });
     }
-
     await Planet.insertMany(data);
-    console.log('Seeded Planet data successfully.');
+    logger.info('Seeded Planet data successfully.');
+
   } catch (error) {
-    console.error('Error seeding Planet data: ', error);
+    logger.error('Error seeding Planet data: ', error);
   }
 }
 
@@ -79,19 +80,23 @@ const seedMiner = async (numOfPlanet) => {
         carryCapacity: Math.floor(Math.random() * 200) + 1,
         travelSpeed: Math.floor(Math.random() * 200) + 1, // 10 for debug
         miningSpeed: Math.floor(Math.random() * 200) + 1,
-        status: "Idle",
+        status: MinerStatus.IDLE,
+        position: {
+          x: planet.position.x,
+          y: planet.position.y,
+        },
         load: 0,
         // angle: 0, // For CSS rotation
-      })
+      });
     }
     await Miner.insertMany(data);
     // const miners = await Miner.find().populate('planet').exec();
     // for (let miner of miners) {
     //   await storeHistory(miner, 0, HistoryModelStatus.MINER_SPAWN_ON_PLANET)
     // }
-    console.log('Seeded Miner data successfully.');
+    logger.info('Seeded Miner data successfully.');
   } catch (error) {
-    console.error('Error seeding Miner data: ', error);
+    logger.error('Error seeding Miner data: ', error);
   }
 }
 
@@ -99,12 +104,12 @@ const getRandomPlanet = async () => {
   // Get the count of all users
   const count = await Planet.count().exec();
   const random = Math.floor(Math.random() * count);
-  const planet = await Planet.findOne().skip(random).exec()
+  const planet = await Planet.findOne().skip(random).exec();
   planet.totalOfMiners += 1;
   await planet.save();
   return planet;
 }
 
 main().then(() => {
-  console.log("DB Flushed");
-}, console.error);
+  logger.info("DB Flushed");
+}, logger.error);

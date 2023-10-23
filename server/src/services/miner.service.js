@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const { Miner, Planet } = require('../models');
+const { Miner, MinerStatus, Planet } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -10,10 +10,13 @@ const ApiError = require('../utils/ApiError');
 const createMiner = async (minerBody) => {
   //TODO: capsule the logic in one transaction
   const planet = await Planet.findById(minerBody.planet);
-  planet.mineral -= 1000;
+  planet.minerals -= 1000;
   planet.totalOfMiners += 1;
+  Object.assign(minerBody, { load: 0, position: planet.position, status: MinerStatus.IDLE });
+
+  const newMiner = Miner.create(minerBody);
   await planet.save();
-  return Miner.create(minerBody);
+  return newMiner;
 };
 
 /**

@@ -11,6 +11,7 @@ import {
   Switch,
   Route
 } from 'react-router-dom'
+import '../../styles/svg/index.js'
 
 function App() {
 	return (
@@ -31,7 +32,9 @@ function App() {
 					</Route>
 				</Switch>
 			</main>
-			<aside />
+			<aside>
+				
+			</aside>
 		</Router>
 	);
 }

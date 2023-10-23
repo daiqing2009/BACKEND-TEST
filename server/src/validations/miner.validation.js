@@ -5,11 +5,9 @@ const createMiner = {
   body: Joi.object().keys({
     name: Joi.string().required(),
     carryCapacity: Joi.number().integer().min(1).max(120),
-    load: Joi.number().integer().min(0).max(120),
     travelSpeed: Joi.number().integer().min(1).max(120),
     miningSpeed: Joi.number().integer().min(1).max(120),
     planet: Joi.string().required(),
-    status: Joi.string().required(),
   }),
 };
 

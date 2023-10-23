@@ -11,6 +11,8 @@ router
   .post(validate(minerValidation.createMiner), minerController.createMiner)
   .get(validate(minerValidation.getMiners), minerController.getMiners);
 
+router.route('/:minerId/history').get(validate(minerValidation.getMiner), minerController.getHistoryByMiner);
+
 router
   .route('/:minerId')
   .get(validate(minerValidation.getMiner), minerController.getMiner)

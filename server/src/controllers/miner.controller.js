@@ -2,7 +2,7 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { minerService } = require('../services');
+const { minerService, historyService } = require('../services');
 
 const createMiner = catchAsync(async (req, res) => {
   const miner = await minerService.createMiner(req.body);
@@ -24,6 +24,14 @@ const getMiner = catchAsync(async (req, res) => {
   res.send(miner);
 });
 
+const getHistoryByMiner = catchAsync(async (req, res) => {
+  const history = await historyService.getHistoryByMiner(req.params.minerId);
+  if (!history) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'History not found');
+  }
+  res.send(history);
+});
+
 const updateMiner = catchAsync(async (req, res) => {
   const miner = await minerService.updateMinerById(req.params.minerId, req.body);
   res.send(miner);
@@ -40,4 +48,5 @@ module.exports = {
   getMiner,
   updateMiner,
   deleteMiner,
+  getHistoryByMiner,
 };

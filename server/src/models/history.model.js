@@ -1,61 +1,46 @@
 const mongoose = require('mongoose');
 
-// const validator = require('validator');
-// const bcrypt = require('bcryptjs');
-const { toJSON, paginate, geo } = require('./plugins');
-// const { roles } = require('../config/roles');
-const { minerStatus } = require('../config/minerStatus');
-
 const { Schema } = mongoose;
-const historySchema = mongoose.Schema(
+const { toJSON, paginate } = require('./plugins');
+
+const HistorySchema = new Schema(
   {
-    miner: {
-      type: Schema.Types.ObjectId,
-      ref: 'Miner',
-      required: true,
+    year: { type: Number, required: true },
+    planet: { type: String, required: true },
+    capacity: {
+      current: { type: Number, required: true },
+      max: { type: Number, required: true },
+      speed: { type: Number, required: true },
     },
-    year: {
-      type: Number,
-      min: 0,
-    },
-    minerLoad: {
-      type: Number,
-      required: true,
+    traveling: {
+      speed: {
+        dx: { type: Number, required: true },
+        dy: { type: Number, required: true },
+      },
+      angel: { type: Number, required: true },
     },
     position: {
-      type: geo.pointSchema,
-      required: true,
+      x: { type: Number, required: true },
+      y: { type: Number, required: true },
     },
-    planet: {
-      type: Schema.Types.ObjectId,
-      ref: 'Planet',
-    },
-    target: {
-      type: Schema.Types.ObjectId,
-      ref: 'Asteroid',
-    },
-    stay: {
-      place: String,
-      id: mongoose.ObjectId,
-    },
-    status: {
-      type: String,
-      enum: [minerStatus.Idle, minerStatus.Mining, minerStatus.Traveling, minerStatus.Transfering],
-      required: true,
-    },
+    status: { type: Number, required: true },
+    miner: { type: mongoose.Schema.Types.ObjectId, ref: 'Miner' },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 // add plugin that converts mongoose to json
-historySchema.plugin(toJSON);
-historySchema.plugin(paginate);
+HistorySchema.plugin(toJSON);
+HistorySchema.plugin(paginate);
 
-/**
- * @typedef Miner
- */
-const History = mongoose.model('History', historySchema);
+const History = mongoose.model('History', HistorySchema);
 
-module.exports = History;
+const HistoryModelStatus = {
+  MINER_SPAWN_ON_PLANET: 1,
+  TRAVELING_FROM_PLANET: 2,
+  MINING_ASTEROID: 3,
+  TRAVELING_BACK_FROM_ASTEROID: 4,
+  TRANSFERRING_MINERALS_TO_PLANET: 5,
+};
+
+module.exports = { History, HistoryModelStatus };

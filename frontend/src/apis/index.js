@@ -14,11 +14,6 @@ export const apis = {
         name: name
       },
     }),
-  /**
-   * Fetch miners by planet id
-   * @param {array} id Array of planet id
-   * @returns {array} miners
-   */
   fetchMinerByPlanetId: (id) => {
     return instance.get(`/miners`, {
       params: {
@@ -26,6 +21,6 @@ export const apis = {
       },
     });
   },
-  fetchHistoryByMinerId: (id) => instance.get(`/history/${id}`),
+  fetchHistoryByMinerId: (id) => instance.get(`/miners/${id}/history`),
   createMiner: (props) => instance.post(`/miners`, props),
 };

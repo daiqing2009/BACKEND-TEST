@@ -87,13 +87,11 @@ class CreateMiner extends React.Component {
 	handleSubmit(event) {
 		event.preventDefault();
 		let newMiner = {
-			"name": this.state.name,
+			name: this.state.name,
 			carryCapacity: this.state.carryCapacity,
 			travelSpeed: this.state.travelSpeed,
 			miningSpeed: this.state.miningSpeed,
 			planet: this.state.planetId,
-			load: 0,
-			status: "Idle",
 		}
 		console.log('New Miner submited' + JSON.stringify(newMiner));
 		apis.createMiner(newMiner).then(
@@ -122,7 +120,7 @@ class CreateMiner extends React.Component {
 				<select placeholder="Select a planet" id="planet" value={this.state.planetId} onChange={(e) => this.validateFields('planet', e.target.value)} >
 					{
 						this.state.planets.map(planet => {
-							if (planet.mineral < 1000) {
+							if (planet.minerals < 1000) {
 								return <option key={planet.id} value={planet.id} disabled>{planet.name}</option>
 							} else {
 								return <option key={planet.id} value={planet.id}>{planet.name}</option>

@@ -110,9 +110,9 @@ class PlanetList extends React.Component {
 							<tr onClick={e => this.showPopup(e, planet)} key={planet.id + planet.totalOfMiners}>
 								<td>{planet.name}</td>
 								<td>{planet.totalOfMiners}</td>
-								<td className={Number(planet.mineral) > 1000 ? "green" : ""}>{planet.mineral}/ 1000</td>
-								<td>832, 635</td>
-								<td>{Number(planet.mineral) > 1000 ? <div className="icon-addminer" onClick={e => this.showForm(e, planet)}>Create a miner</div> : ""}</td>
+								<td className={Number(planet.minerals) > 1000 ? "green" : ""}>{planet.minerals}/ 1000</td>
+								<td>{planet.position.x + ', ' + planet.position.y}</td>
+								<td>{Number(planet.minerals) > 1000 ? <div className="icon-addminer" onClick={e => this.showForm(e, planet)}>Create a miner</div> : ""}</td>
 							</tr>
 						))
 					}

@@ -44,8 +44,20 @@ const updateAsteroidById = async (asteroidId, updateBody) => {
   return asteroid;
 };
 
+const findNextTarget = async (miner) => {
+  // const random = Math.floor(Math.random() * arr.length);
+  const asteroid = await Asteroid.findOne({ mineral: { $gt: 0 }, miner: null }).exec();
+  if (asteroid) {
+    asteroid.miner = miner;
+    await asteroid.save();
+  }
+
+  return asteroid;
+}
+
 module.exports = {
   queryAsteroids,
   getAsteroidById,
   updateAsteroidById,
+  findNextTarget,
 };
