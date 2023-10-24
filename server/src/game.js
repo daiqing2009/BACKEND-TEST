@@ -129,10 +129,10 @@ function Game(io) {
 
     // If we depleted the planet or reached mining capacity, return home
     if (miner.load === miner.carryCapacity || miner.target.minerals === 0) {
-      miner.status = MinerStatus.TRAVELING;
-      miner.travelTo = TravelTo.PLANET;
       miner.target.currentMiner = null;
       await miner.target.save();
+      miner.status = MinerStatus.TRAVELING;
+      miner.travelTo = TravelTo.PLANET;
       miner.target = null;
     }
     await miner.save();
@@ -142,7 +142,8 @@ function Game(io) {
 
   // Transfer the minerals to the planet
   const transferring = async (miner) => {
-    miner.planet.minerals += miner.load;
+    //TODO: rethink if need to capsule in a transaction
+    await miner.planet.updateOne({ minerals: miner.planet.minerals + miner.load });
     miner.load = 0;
     miner.status = MinerStatus.IDLE;
     await miner.save();
