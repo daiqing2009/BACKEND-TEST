@@ -1,6 +1,7 @@
 const httpStatus = require('http-status');
 const { Asteroid } = require('../models');
 const ApiError = require('../utils/ApiError');
+const logger = require('../config/logger');
 
 /**
  * Query for asteroids
@@ -46,14 +47,18 @@ const updateAsteroidById = async (asteroidId, updateBody) => {
 
 const findNextTarget = async (miner) => {
   // const random = Math.floor(Math.random() * arr.length);
-  const asteroid = await Asteroid.findOne({ mineral: { $gt: 0 }, miner: null }).exec();
-  if (asteroid) {
-    asteroid.miner = miner;
-    await asteroid.save();
-  }
+  const asteroid = await Asteroid.findOneAndUpdate(
+    { minerals: { $gt: 0 }, currentMiner: null },
+    { currentMiner: miner.id }
+  ).exec();
+  // if (asteroid) {
+  //   asteroid.currentMiner = miner;
+  //   await asteroid.save();
+  // }
+  logger.debug(asteroid);
 
   return asteroid;
-}
+};
 
 module.exports = {
   queryAsteroids,

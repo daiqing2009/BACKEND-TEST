@@ -1,4 +1,6 @@
-const { History } = require('../models');
+const { History, HistoryStatus } = require('../models/history.model');
+const logger = require('../config/logger');
+
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -7,24 +9,22 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<Miner>}
  */
 const storeHistory = async (miner, currentTick, status) => {
-  return await HistoryModel.create({
+  // logger.debug(miner);
+  return await History.create({
     year: currentTick,
     planet: miner.planet.name,
     mining: {
-      current: miner.load,
+      load: miner.load,
       max: miner.carryCapacity,
-      speed: miner.miningSpeed,
+      speed: (status === HistoryStatus.MINING_ASTEROID) ? miner.miningSpeed : 0,
     },
-    // traveling: {
-    //   speed: {
-    //     dx: travel.dx,
-    //     dy: travel.dx,
-    //   },
-    //   angel: travel.angel,
-    // },
+    traveling: {
+      speed: (status === HistoryStatus.TRAVELING_FROM_PLANET | status === HistoryStatus.TRAVELING_BACK_FROM_ASTEROID) ? miner.travelSpeed : 0,
+      angel: miner.angel,
+    },
     position: {
-      x: Math.round(miner.x),
-      y: Math.round(miner.y),
+      x: Math.round(miner.position.x),
+      y: Math.round(miner.position.y),
     },
     status: status,
     miner: miner,
@@ -37,7 +37,8 @@ const storeHistory = async (miner, currentTick, status) => {
  * @returns {Promise<Miner>}
  */
 const getHistoryByMiner = async (miner) => {
-  return History.find().where({ miner: miner.id }).populate('miner').exec();
+  logger.debug(miner);
+  return History.find({miner:miner }).sort({ 'year': -1 }).populate('miner').exec();
 };
 
 /**

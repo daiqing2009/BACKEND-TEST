@@ -17,7 +17,7 @@ mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
   const io = new Server(httpServer);
 
   // Run the game
-  // Game(io);
+  Game(io);
 });
 
 const exitHandler = () => {

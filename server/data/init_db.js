@@ -9,16 +9,16 @@ const main = async () => {
   await Promise.all(Object.values(mongoose.connection.collections).map(async (collection) => collection.deleteMany()));
 
   await seedPlanet(3);
-  await seedAsteriod(20);
+  await seedAsteroid(20);
   await seedMiner(9);
 
   await mongoose.disconnect();
 };
 
-const seedAsteriod = async (numOfAsteriod) => {
+const seedAsteroid = async (numOfAsteroid) => {
   try {
     let data = []
-    for (let i = 1; i <= numOfAsteriod; i++) {
+    for (let i = 1; i <= numOfAsteroid; i++) {
       let initMinerals = Math.floor(Math.random() * (1200 - 800 + 1) + 800);
       data.push({
         "name": "Asteroid " + i,
@@ -77,9 +77,9 @@ const seedMiner = async (numOfPlanet) => {
         planet: planet,
         // x: planet.position.x,
         // y: planet.position.y,
-        carryCapacity: Math.floor(Math.random() * 200) + 1,
-        travelSpeed: Math.floor(Math.random() * 200) + 1, // 10 for debug
-        miningSpeed: Math.floor(Math.random() * 200) + 1,
+        carryCapacity: Math.floor(Math.random() * 100) + 1,
+        travelSpeed: Math.floor(Math.random() * 100) + 1, // 10 for debug
+        miningSpeed: Math.floor(Math.random() * 50) + 1,
         status: MinerStatus.IDLE,
         position: {
           x: planet.position.x,

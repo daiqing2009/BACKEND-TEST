@@ -9,11 +9,6 @@ import { apis } from "../../apis/index.js";
 class MinerPopup extends React.Component {
 	constructor(props) {
 		super(props)
-		console.debug(props)
-		// this.state = {
-		// 	miner: props.miner,
-		// 	histories: [],
-		// }
 	}
 
 	render() {
@@ -36,11 +31,11 @@ class MinerPopup extends React.Component {
 					{
 						this.props.histories.map(history => (
 							<tr key={history.id}>
-								<td>{history.timestamp}</td>
+								<td>{history.CreatedAt}</td>
 								<td>{history.year}</td>
-								<td>{history.miner.planet.name}</td>
-								<td className={Number(history.miner.payload) === Number(history.miner.carryCapacity) ? "green" : ""}> {history.miner.load}/ {history.miner.carryCapacity}</td>
-								<td>{history.travel.speed}</td>
+								<td>{history.planet}</td>
+								<td className={Number(history.mining.load) === Number(history.mining.max) ? "green" : ""}> {history.mining.load}/ {history.mining.max}</td>
+								<td>{history.traveling.speed}</td>
 								<td>{history.mining.speed}</td>
 								<td>{history.position.x + ', ' + history.position.y}</td>
 								<td>{history.status}</td>

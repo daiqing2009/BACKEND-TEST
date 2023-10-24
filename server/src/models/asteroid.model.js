@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 // const { roles } = require('../config/roles');
 
-const asteriodSchema = mongoose.Schema(
+const asteroidSchema = mongoose.Schema(
   {
     name: {
       type: String,
@@ -37,12 +37,12 @@ const asteriodSchema = mongoose.Schema(
 );
 
 // add plugin that converts mongoose to json
-asteriodSchema.plugin(toJSON);
-asteriodSchema.plugin(paginate);
+asteroidSchema.plugin(toJSON);
+asteroidSchema.plugin(paginate);
 
 /**
  * @typedef Miner
  */
-const Asteriod = mongoose.model('Asteriod', asteriodSchema);
+const Asteroid = mongoose.model('Asteroid', asteroidSchema);
 
-module.exports = Asteriod;
+module.exports = Asteroid;

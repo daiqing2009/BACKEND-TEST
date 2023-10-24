@@ -2,7 +2,7 @@ const express = require('express');
 const authRoute = require('./auth.route');
 const userRoute = require('./user.route');
 const minerRoute = require('./miner.route');
-const asteriodRoute = require('./asteroid.route');
+const asteroidRoute = require('./asteroid.route');
 const planetRoute = require('./planet.route');
 
 const docsRoute = require('./docs.route');
@@ -25,7 +25,7 @@ const defaultRoutes = [
   },
   {
     path: '/asteroids',
-    route: asteriodRoute,
+    route: asteroidRoute,
   },
   {
     path: '/planets',

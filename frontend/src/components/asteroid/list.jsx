@@ -38,10 +38,10 @@ class AsteroidList extends React.Component {
 				<tbody>
 					{
 						this.state.asteroids.map(asteroid => (
-							<tr>
+							<tr key={asteroid.id}>
 								<td>{asteroid.name}</td>
 								<td className={Number(asteroid.minerals) === 0 ? "red" : ""}>{asteroid.minerals}/ {asteroid.initMinerals}</td>
-								<td>{asteroid.currentMiner? asteroid.currentMiner.name: '-'}-</td>
+								<td>{asteroid.currentMiner? asteroid.currentMiner.name: '-'}</td>
 								<td>{asteroid.position.x + ', ' + asteroid.position.y}</td>
 							</tr>
 						))

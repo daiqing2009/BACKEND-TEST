@@ -68,7 +68,7 @@ const minerSchema = Schema(
     angle: { type: Number },
     status: {
       type: String,
-      enum: [MinerStatus.IDLE, MinerStatus.Mining, MinerStatus.Traveling, MinerStatus.Transfering],
+      enum: [MinerStatus.IDLE, MinerStatus.MINING, MinerStatus.TRAVELING, MinerStatus.TRANSFERING],
       required: true,
     },
   },
